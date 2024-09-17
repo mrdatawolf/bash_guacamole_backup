@@ -10,7 +10,7 @@ file="$hostname-$day"
 log() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOGFILE"
 }
-send_email() {
+send_status_update() {
     #mail -s "Backup Status" user@example.com <<< "$1"
 }
 backup() {
@@ -24,10 +24,10 @@ backup() {
     mysqldump -v -u root --password="$DB_PASSWORD" guacamole_db > "$DEST/$file/database/guacamole_db.sql"
     if [ $? -eq 0 ]; then
         log "MySQL database backup was successful"
-        send_email "Backup completed successfully"
+        send_status_update "Backup completed successfully"
     else
         log "MySQL database backup failed"
-        send_email "Backup failed"
+        send_status_update "Backup failed"
     fi
 }
 
